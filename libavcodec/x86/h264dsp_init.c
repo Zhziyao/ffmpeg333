@@ -23,6 +23,7 @@
 #include "libavutil/x86/asm.h"
 #include "libavutil/x86/cpu.h"
 #include "libavcodec/h264dsp.h"
+#include "stdio.h"
 
 /***********************************/
 /* IDCT */
@@ -232,6 +233,7 @@ av_cold void ff_h264dsp_init_x86(H264DSPContext *c, const int bit_depth,
 
     if (bit_depth == 8) {
         if (EXTERNAL_MMX(cpu_flags)) {
+            printf("optimize with mmx8bit\n");
             c->h264_idct_dc_add   =
             c->h264_idct_add      = ff_h264_idct_add_8_mmx;
             c->h264_idct8_dc_add  =
@@ -249,6 +251,7 @@ av_cold void ff_h264dsp_init_x86(H264DSPContext *c, const int bit_depth,
                 c->h264_luma_dc_dequant_idct = ff_h264_luma_dc_dequant_idct_mmx;
         }
         if (EXTERNAL_MMXEXT(cpu_flags)) {
+            printf("optimize with mmxext8bit\n");
             c->h264_idct_dc_add  = ff_h264_idct_dc_add_8_mmxext;
             c->h264_idct8_dc_add = ff_h264_idct8_dc_add_8_mmxext;
             c->h264_idct_add16   = ff_h264_idct_add16_8_mmxext;
@@ -281,6 +284,7 @@ av_cold void ff_h264dsp_init_x86(H264DSPContext *c, const int bit_depth,
             c->biweight_h264_pixels_tab[2] = ff_h264_biweight_4_mmxext;
         }
         if (EXTERNAL_SSE2(cpu_flags)) {
+            printf("optimize with sse28bit\n");
             c->h264_idct8_add  = ff_h264_idct8_add_8_sse2;
 
             c->h264_idct_add16 = ff_h264_idct_add16_8_sse2;
@@ -316,10 +320,12 @@ av_cold void ff_h264dsp_init_x86(H264DSPContext *c, const int bit_depth,
             }
         }
         if (EXTERNAL_SSSE3(cpu_flags)) {
+            printf("optimize with ssse38bit\n");
             c->biweight_h264_pixels_tab[0] = ff_h264_biweight_16_ssse3;
             c->biweight_h264_pixels_tab[1] = ff_h264_biweight_8_ssse3;
         }
         if (EXTERNAL_AVX(cpu_flags)) {
+            printf("optimize with avx8bit\n");
             c->h264_v_loop_filter_luma       = ff_deblock_v_luma_8_avx;
             c->h264_h_loop_filter_luma       = ff_deblock_h_luma_8_avx;
             c->h264_v_loop_filter_luma_intra = ff_deblock_v_luma_intra_8_avx;
@@ -356,6 +362,7 @@ av_cold void ff_h264dsp_init_x86(H264DSPContext *c, const int bit_depth,
             c->h264_idct_dc_add = ff_h264_idct_dc_add_10_mmxext;
         }
         if (EXTERNAL_SSE2(cpu_flags)) {
+            printf("optimize with sse210bit\n");
             c->h264_idct_add     = ff_h264_idct_add_10_sse2;
             c->h264_idct8_dc_add = ff_h264_idct8_dc_add_10_sse2;
 
@@ -394,6 +401,7 @@ av_cold void ff_h264dsp_init_x86(H264DSPContext *c, const int bit_depth,
 #endif /* HAVE_ALIGNED_STACK */
         }
         if (EXTERNAL_SSE4(cpu_flags)) {
+            printf("optimize with sse410bit\n");
             c->weight_h264_pixels_tab[0] = ff_h264_weight_16_10_sse4;
             c->weight_h264_pixels_tab[1] = ff_h264_weight_8_10_sse4;
             c->weight_h264_pixels_tab[2] = ff_h264_weight_4_10_sse4;
@@ -403,6 +411,7 @@ av_cold void ff_h264dsp_init_x86(H264DSPContext *c, const int bit_depth,
             c->biweight_h264_pixels_tab[2] = ff_h264_biweight_4_10_sse4;
         }
         if (EXTERNAL_AVX(cpu_flags)) {
+            printf("optimize with avx10bit\n");
             c->h264_idct_dc_add  =
             c->h264_idct_add     = ff_h264_idct_add_10_avx;
             c->h264_idct8_dc_add = ff_h264_idct8_dc_add_10_avx;
