@@ -424,6 +424,7 @@ av_cold void ff_h264dsp_init_x86(H264DSPContext *c, const int bit_depth,
             }
             c->h264_idct_add16intra = ff_h264_idct_add16intra_10_avx;
 #if HAVE_ALIGNED_STACK
+            printf("sligned stack\n");
             c->h264_idct8_add  = ff_h264_idct8_add_10_avx;
             c->h264_idct8_add4 = ff_h264_idct8_add4_10_avx;
 #endif /* HAVE_ALIGNED_STACK */
@@ -436,6 +437,7 @@ av_cold void ff_h264dsp_init_x86(H264DSPContext *c, const int bit_depth,
                 c->h264_h_loop_filter_chroma = ff_deblock_h_chroma422_10_avx;
             }
 #if HAVE_ALIGNED_STACK
+            printf("sligned stack\n");
             c->h264_v_loop_filter_luma         = ff_deblock_v_luma_10_avx;
             c->h264_h_loop_filter_luma         = ff_deblock_h_luma_10_avx;
             c->h264_v_loop_filter_luma_intra   = ff_deblock_v_luma_intra_10_avx;
